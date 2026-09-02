@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>{{ t.payment_gateway }}</title>
+
+<style>
+
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    background:#f4f6f8;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.box{
+    width:420px;
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 0 10px gray;
+}
+
+h2{
+    text-align:center;
+    color:#2e7d32;
+    margin-bottom:20px;
+}
+
+p{
+    font-size:18px;
+    margin:12px 0;
+}
+
+.status{
+    color:green;
+    font-weight:bold;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    background:#2e7d32;
+    color:white;
+    border:none;
+    border-radius:5px;
+    font-size:18px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#1b5e20;
+}
+
+button:disabled{
+    background:gray;
+    cursor:not-allowed;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="box">
+
+<h2>{{ t.payment_gateway }}</h2>
+
+<p><b>{{ t.farmer }} :</b> {{ booking.farmer_name }}</p>
+
+<p><b>{{ t.crop }} :</b> {{ booking.crop }}</p>
+
+<p><b>{{ t.village }} :</b> {{ booking.village }}</p>
+
+<p><b>{{ t.area }} :</b> {{ booking.area }} {{ t.acres }}</p>
+
+<p><b>{{ t.amount }} :</b> ₹{{ booking.area|int * 300 }}</p>
+
+<p>
+<b>{{ t.payment }} :</b>
+
+{% if booking.payment_status == "Paid" %}
+<span class="status">Paid</span>
+{% else %}
+Pending
+{% endif %}
+
+</p>
+
+{% if booking.payment_status != "Paid" %}
+
+<form action="/pay_now/{{ booking._id }}" method="POST">
+
+<button type="submit">
+{{ t.pay_now }}
+</button>
+
+</form>
+
+{% else %}
+
+<button disabled>
+{{ t.paid }}
+</button>
+
+{% endif %}
+
+</div>
+
+</body>
+</html>

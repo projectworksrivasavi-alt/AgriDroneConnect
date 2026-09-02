@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Select Language</title>
+    <style>
+        body{
+            font-family:Arial,sans-serif;
+            background:url("/static/images/farmer-background.jpg") no-repeat center center/cover;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            height:100vh;
+        }
+
+        .box{
+            width:350px;
+            padding:30px;
+            border-radius:15px;
+            background:rgba(255,255,255,0.2);
+            backdrop-filter:blur(10px);
+            text-align:center;
+            color:white;
+        }
+
+        h2{
+            margin-bottom:30px;
+        }
+
+        button{
+            width:100%;
+            padding:15px;
+            margin:10px 0;
+            font-size:18px;
+            border:none;
+            border-radius:8px;
+            cursor:pointer;
+            background:#28a745;
+            color:white;
+        }
+
+        button:hover{
+            background:#218838;
+        }
+    </style>
+</head>
+<body>
+
+<div class="box">
+
+<h2>🌐 Select Language</h2>
+
+<form action="/set_language" method="POST">
+
+    <button type="submit" name="language" value="English">
+        English
+    </button>
+
+    <button type="submit" name="language" value="Telugu">
+        తెలుగు
+    </button>
+
+</form>
+</div>
+
+</body>
+</html>

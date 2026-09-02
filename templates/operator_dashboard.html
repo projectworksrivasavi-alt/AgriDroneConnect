@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Operator Dashboard</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+    background:
+    linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),
+    url("/static/images/drone_background.jpeg");
+
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    background-attachment:fixed;
+    min-height:100vh;
+    padding:40px;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+    background:rgba(255,255,255,.15);
+    backdrop-filter:blur(15px);
+    border-radius:20px;
+    padding:30px;
+    box-shadow:0 15px 35px rgba(0,0,0,.4);
+}
+
+h2{
+    color:white;
+    text-align:center;
+    margin-bottom:10px;
+}
+
+h3{
+    color:white;
+    margin:25px 0;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+th{
+    background:#2E7D32;
+    color:white;
+    padding:15px;
+}
+
+td{
+    padding:12px;
+    text-align:center;
+    border-bottom:1px solid #ddd;
+}
+
+tr:nth-child(even){
+    background:#f5f5f5;
+}
+
+tr:hover{
+    background:#E8F5E9;
+}
+
+button{
+    border:none;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.accept{
+    background:#2E7D32;
+    color:white;
+    padding:8px 14px;
+    border-radius:6px;
+}
+
+.reject{
+    background:#D32F2F;
+    color:white;
+    padding:8px 14px;
+    border-radius:6px;
+}
+
+.complete{
+    background:#1565C0;
+    color:white;
+    padding:8px 14px;
+    border-radius:6px;
+}
+
+.location{
+    background:#FB8C00;
+    color:white;
+    padding:8px 14px;
+    border-radius:6px;
+    text-decoration:none;
+}
+
+.accept:hover{
+    background:#1B5E20;
+}
+
+.reject:hover{
+    background:#B71C1C;
+}
+
+.complete:hover{
+    background:#0D47A1;
+}
+
+.location:hover{
+    background:#EF6C00;
+}
+
+.status{
+    font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Welcome {{ operator.name }}</h2>
+
+<h3>Available Bookings</h3>
+
+<table>
+
+<tr>
+<th>Farmer</th>
+<th>Village</th>
+<th>Mobile</th>
+<th>Crop</th>
+<th>Area</th>
+<th>Status</th>
+<th>Payment</th>
+<th>Location</th>
+<th>Action</th>
+</tr>
+
+{% for booking in bookings %}
+
+<tr>
+
+<td>{{ booking.farmer_name }}</td>
+<td>{{ booking.village }}</td>
+<td>
+
+{% if booking.status == "Accepted" or booking.status == "Completed" %}
+
+    {{ booking.mobile }}
+
+{% else %}
+
+    <span style="color:gray;">Hidden</span>
+
+{% endif %}
+
+</td>
+<td>{{ booking.crop }}</td>
+<td>{{ booking.area }} Acres</td>
+
+<td class="status">
+
+{% if booking.status=="Pending" %}
+<span style="color:orange;">Pending</span>
+
+{% elif booking.status=="Accepted" %}
+<span style="color:green;">Accepted</span>
+
+{% elif booking.status=="Completed" %}
+<span style="color:blue;">Service Completed</span>
+
+{% elif booking.status=="Rejected" %}
+<span style="color:red;">Rejected</span>
+
+{% endif %}
+
+</td>
+
+<td>
+
+{% if booking.payment_status=="Paid" %}
+<span style="color:green;font-weight:bold;">Paid</span>
+{% else %}
+<span style="color:orange;font-weight:bold;">Pending</span>
+{% endif %}
+
+</td>
+
+<td>
+
+{% if booking.latitude and booking.longitude %}
+
+<a class="location"
+href="https://www.google.com/maps?q={{ booking.latitude }},{{ booking.longitude }}"
+target="_blank">
+
+📍 Open Map
+
+</a>
+
+{% else %}
+
+Not Available
+
+{% endif %}
+
+</td>
+
+<td>
+
+{% if booking.status=="Pending" %}
+
+<form action="/accept_booking/{{ booking._id }}" method="POST" style="display:inline;">
+<button class="accept">
+Accept
+</button>
+</form>
+
+<form action="/reject_booking/{{ booking._id }}" method="POST" style="display:inline;">
+<button class="reject">
+Reject
+</button>
+</form>
+
+{% elif booking.status=="Accepted" %}
+
+{% if booking.payment_status=="Paid" %}
+
+<form action="/complete_booking/{{ booking._id }}" method="POST">
+
+<button class="complete">
+
+Service Completed
+
+</button>
+
+</form>
+
+{% else %}
+
+<span style="color:orange;font-weight:bold;">
+
+Waiting for Payment
+
+</span>
+
+{% endif %}
+
+{% elif booking.status=="Completed" %}
+
+<span style="color:green;font-weight:bold;">
+
+✔ Service Completed
+
+</span>
+
+{% elif booking.status=="Rejected" %}
+
+<span style="color:red;font-weight:bold;">
+
+Rejected
+
+</span>
+
+{% endif %}
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+</body>
+</html>

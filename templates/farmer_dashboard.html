@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>{{ t.my_bookings }}</title>
+
+<style>
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f4f6f8;
+    margin:20px;
+}
+
+h2{
+    color:#2e7d32;
+}
+
+h3{
+    margin-top:20px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+
+th{
+    background:#2e7d32;
+    color:white;
+    padding:12px;
+}
+
+td{
+    border:1px solid #ddd;
+    padding:12px;
+    text-align:center;
+}
+
+tr:nth-child(even){
+    background:#f2f2f2;
+}
+
+.pending{
+    color:orange;
+    font-weight:bold;
+}
+
+.accepted{
+    color:green;
+    font-weight:bold;
+}
+
+.completed{
+    color:blue;
+    font-weight:bold;
+}
+
+.rejected{
+    color:red;
+    font-weight:bold;
+}
+
+.btn{
+    background:#2e7d32;
+    color:white;
+    padding:8px 14px;
+    text-decoration:none;
+    border-radius:5px;
+}
+
+.btn:hover{
+    background:#1b5e20;
+}
+
+.paid{
+    color:green;
+    font-weight:bold;
+}
+
+.wait{
+    color:orange;
+    font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>🌾 {{ t.welcome_farmer }}</h2>
+
+<a href="/booking" class="btn">
+{{ t.book_service }}
+</a>
+
+<h3>{{ t.my_bookings }}</h3>
+
+<table>
+
+<tr>
+
+<th>{{ t.crop }}</th>
+<th>{{ t.village }}</th>
+<th>{{ t.area }}</th>
+<th>{{ t.booking_date }}</th>
+<th>{{ t.status }}</th>
+<th>{{ t.payment }}</th>
+<th>{{ t.feedback }}</th>
+
+</tr>
+
+{% for booking in bookings %}
+
+<tr>
+
+<td>{{ booking.crop }}</td>
+
+<td>{{ booking.village }}</td>
+
+<td>{{ booking.area }}</td>
+
+<td>{{ booking.booking_date }}</td>
+
+<!-- STATUS -->
+
+<td>
+
+{% if booking.status=="Pending" %}
+
+<span class="pending">
+{{ t.pending }}
+</span>
+
+{% elif booking.status=="Accepted" %}
+
+<span class="accepted">
+{{ t.accepted }}
+</span>
+
+{% elif booking.status=="Completed" %}
+
+<span class="completed">
+Service Completed
+</span>
+
+{% elif booking.status=="Rejected" %}
+
+<span class="rejected">
+Rejected
+</span>
+
+{% else %}
+
+-
+
+{% endif %}
+
+</td>
+
+<!-- PAYMENT -->
+
+<td>
+
+{% if booking.status=="Pending" %}
+
+-
+
+{% elif booking.status=="Accepted" %}
+
+    {% if booking.payment_status=="Paid" %}
+
+        <span class="paid">
+
+        {{ t.paid }}
+
+        </span>
+
+    {% else %}
+
+        <a href="/payment/{{ booking._id }}" class="btn">
+
+        {{ t.pay_now }}
+
+        </a>
+
+    {% endif %}
+
+{% elif booking.status=="Completed" %}
+
+<span class="paid">
+
+{{ t.paid }}
+
+</span>
+
+{% else %}
+
+-
+
+{% endif %}
+
+</td>
+
+<!-- FEEDBACK -->
+
+<td>
+
+{% if booking.status=="Completed" %}
+
+    {% if booking.rating %}
+
+        <span class="paid">
+
+        {{ t.feedback_submitted }}
+
+        </span>
+
+    {% else %}
+
+        <a href="/feedback/{{ booking._id }}" class="btn">
+
+        {{ t.give_feedback }}
+
+        </a>
+
+    {% endif %}
+
+{% else %}
+
+-
+
+{% endif %}
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</body>
+
+</html>

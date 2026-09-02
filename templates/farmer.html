@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>{{ t.login }}</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:
+    linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),
+    url("/static/images/farmer-background.jpg");
+
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    background-attachment:fixed;
+}
+
+.login-box{
+    width:420px;
+    padding:40px;
+
+    background:rgba(255,255,255,.18);
+
+    backdrop-filter:blur(15px);
+
+    border:1px solid rgba(255,255,255,.3);
+
+    border-radius:20px;
+
+    box-shadow:0 15px 35px rgba(0,0,0,.4);
+
+    color:white;
+}
+
+.logo{
+    text-align:center;
+    font-size:60px;
+    margin-bottom:10px;
+}
+
+h2{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+label{
+    display:block;
+    margin-bottom:8px;
+    font-weight:bold;
+}
+
+input{
+    width:100%;
+    padding:14px;
+
+    border:none;
+    outline:none;
+
+    border-radius:8px;
+
+    font-size:16px;
+
+    margin-bottom:20px;
+}
+
+.send-btn{
+    width:100%;
+
+    padding:14px;
+
+    background:#43A047;
+
+    color:white;
+
+    border:none;
+
+    border-radius:8px;
+
+    font-size:17px;
+
+    cursor:pointer;
+
+    margin-bottom:20px;
+}
+
+.send-btn:hover{
+    background:#2E7D32;
+}
+
+.login-btn{
+    width:100%;
+
+    padding:14px;
+
+    background:#1565C0;
+
+    color:white;
+
+    border:none;
+
+    border-radius:8px;
+
+    font-size:18px;
+
+    cursor:pointer;
+}
+
+.login-btn:hover{
+    background:#0D47A1;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="login-box">
+
+    <div class="logo">
+        🌾
+    </div>
+
+    <h2>{{ t.login }}</h2>
+
+    <form action="/send_otp" method="POST">
+
+        <label>{{ t.mobile }}</label>
+
+        <input
+            type="tel"
+            name="mobile"
+            id="mobile"
+            placeholder="{{ t.mobile_placeholder }}"
+            maxlength="10"
+            minlength="10"
+            pattern="[0-9]{10}"
+            inputmode="numeric"
+            oninput="this.value=this.value.replace(/[^0-9]/g,'')"
+            required
+        >
+
+        <button
+            type="submit"
+            class="send-btn">
+
+            {{ t.send_otp }}
+
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

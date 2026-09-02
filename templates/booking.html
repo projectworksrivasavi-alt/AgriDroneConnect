@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>{{ t.book_service }}</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+    background:
+    linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),
+    url("/static/images/booking-bg.jpg");
+
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    background-attachment:fixed;
+
+    min-height:100vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    padding:30px;
+}
+
+.container{
+    width:650px;
+    background:rgba(255,255,255,.18);
+    backdrop-filter:blur(15px);
+    border-radius:20px;
+    padding:35px;
+    box-shadow:0 15px 35px rgba(0,0,0,.4);
+    color:white;
+}
+
+h2{
+    text-align:center;
+    margin-bottom:25px;
+    color:white;
+}
+
+label{
+    font-weight:bold;
+    display:block;
+    margin-bottom:8px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    border:none;
+    outline:none;
+    border-radius:8px;
+    margin-bottom:18px;
+    font-size:15px;
+}
+
+#map{
+    width:100%;
+    height:350px;
+    border-radius:10px;
+    margin-top:10px;
+    margin-bottom:15px;
+}
+
+#coordsDisplay{
+    text-align:center;
+    margin-bottom:20px;
+    font-weight:bold;
+    color:#FFD54F;
+}
+
+button{
+    width:100%;
+    padding:15px;
+    background:#2E7D32;
+    color:white;
+    border:none;
+    border-radius:8px;
+    font-size:18px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+button:hover{
+    background:#1B5E20;
+    transform:scale(1.02);
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>🚁 {{ t.book_service }}</h2>
+
+<form action="/book_service" method="POST" onsubmit="return checkLocation()">
+
+<label>{{ t.farmer_name }}</label>
+<input type="text" name="farmer_name" placeholder="{{ t.farmer_name_placeholder }}" required>
+
+<label>{{ t.mobile }}</label>
+<input type="text" name="mobile" placeholder="{{ t.mobile_placeholder }}" required>
+
+<label>{{ t.village }}</label>
+<input type="text" name="village" placeholder="{{ t.village_placeholder }}" required>
+
+<label>{{ t.crop }}</label>
+<input type="text" name="crop" placeholder="{{ t.crop_placeholder }}" required>
+
+<label>{{ t.area }}</label>
+<input type="number" name="area" placeholder="{{ t.area_placeholder }}" required>
+
+<label>{{ t.booking_date }}</label>
+<input type="date" name="date" required>
+
+<label>{{ t.select_location }}</label>
+
+<div id="map"></div>
+
+<div id="coordsDisplay">
+{{ t.no_location }}
+</div>
+
+<input type="hidden" id="latitude" name="latitude">
+<input type="hidden" id="longitude" name="longitude">
+
+<button type="submit">
+{{ t.submit_booking }}
+</button>
+
+</form>
+
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+
+const defaultCenter=[17.385044,78.486671];
+
+const map=L.map('map').setView(defaultCenter,6);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+attribution:'© OpenStreetMap contributors'
+}).addTo(map);
+
+let marker;
+
+if(navigator.geolocation){
+
+navigator.geolocation.getCurrentPosition(function(pos){
+
+map.setView([pos.coords.latitude,pos.coords.longitude],15);
+
+});
+
+}
+
+map.on('click',function(e){
+
+placeMarker(e.latlng);
+
+});
+
+function placeMarker(latlng){
+
+if(marker){
+
+marker.setLatLng(latlng);
+
+}else{
+
+marker=L.marker(latlng,{draggable:true}).addTo(map);
+
+marker.on('dragend',function(){
+
+updateCoords(marker.getLatLng());
+
+});
+
+}
+
+updateCoords(latlng);
+
+}
+
+function updateCoords(latlng){
+
+document.getElementById("latitude").value=latlng.lat.toFixed(6);
+
+document.getElementById("longitude").value=latlng.lng.toFixed(6);
+
+document.getElementById("coordsDisplay").innerHTML=
+"📍 "+latlng.lat.toFixed(6)+" , "+latlng.lng.toFixed(6);
+
+}
+
+function checkLocation(){
+
+if(document.getElementById("latitude").value==""){
+
+alert("Please select your farm location.");
+
+return false;
+
+}
+
+return true;
+
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Drone Operator Login</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+
+    background:url("/static/images/operator_background.webp");
+
+    background-size:cover;
+
+    background-position:center;
+
+    background-repeat:no-repeat;
+
+    background-attachment:fixed;
+
+    height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+.login-box{
+    width:420px;
+    padding:40px;
+
+    background:rgba(255,255,255,0.65);
+
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+
+    border-radius:20px;
+
+    border:1px solid rgba(255,255,255,0.4);
+
+    box-shadow:0 12px 35px rgba(0,0,0,0.35);
+}
+
+.logo{
+
+    font-size:60px;
+
+    text-align:center;
+
+    margin-bottom:10px;
+
+}
+
+h2{
+
+    text-align:center;
+
+    color:#1B5E20;
+
+    margin-bottom:30px;
+
+}
+
+label{
+
+    display:block;
+
+    font-weight:bold;
+
+    color:#333;
+
+    margin-bottom:8px;
+
+}
+
+input[type=text],
+input[type=password]{
+
+    width:100%;
+
+    padding:12px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:rgba(255,255,255,.75);
+
+    border:1px solid #ccc;
+
+    margin-bottom:18px;
+
+    font-size:15px;
+
+}
+
+input:focus{
+
+    outline:none;
+
+    border:1px solid #2E7D32;
+
+    box-shadow:0 0 8px #81C784;
+
+}
+
+.show-password{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    margin-bottom:20px;
+
+}
+
+.show-password input{
+
+    width:auto;
+
+}
+
+button{
+
+    width:100%;
+
+    padding:14px;
+
+    background:linear-gradient(45deg,#43A047,#1B5E20);
+
+    color:white;
+
+    border:none;
+
+    border-radius:10px;
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+button:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:0 8px 20px rgba(0,0,0,.3);
+
+}
+
+.register{
+
+    text-align:center;
+
+    margin-top:25px;
+
+}
+
+.register a{
+
+    color:#1B5E20;
+
+    text-decoration:none;
+
+    font-weight:bold;
+
+}
+
+.register a:hover{
+
+    text-decoration:underline;
+
+}
+
+.footer{
+
+    text-align:center;
+
+    margin-top:20px;
+
+    color:#444;
+
+    font-size:14px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="login-box">
+
+<div class="logo"></div>
+
+<h2>Drone Operator Login</h2>
+
+<form action="/operator_login" method="POST">
+
+<label>Mobile Number</label>
+
+<input
+type="text"
+name="mobile"
+placeholder="Enter Mobile Number"
+required>
+
+<label>Password</label>
+
+<input
+type="password"
+id="password"
+name="password"
+placeholder="Enter Password"
+required>
+
+<div class="show-password">
+
+<input
+type="checkbox"
+id="togglePassword">
+
+<label for="togglePassword">
+Show Password
+</label>
+
+</div>
+
+<button type="submit">
+
+Login
+
+</button>
+
+</form>
+
+<div class="register">
+
+Don't have an account?
+
+<br><br>
+
+<a href="/operator_register_page">
+
+Register New Operator
+
+</a>
+
+</div>
+
+<div class="footer">
+
+AgriDrone Connect © 2026
+
+</div>
+
+</div>
+<script>
+
+document.getElementById("togglePassword").addEventListener("change",function(){
+
+    var password=document.getElementById("password");
+
+    if(this.checked){
+
+        password.type="text";
+
+    }
+
+    else{
+
+        password.type="password";
+
+    }
+
+});
+
+</script>
+
+</body>
+
+</html>
