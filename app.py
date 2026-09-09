@@ -761,6 +761,22 @@ def admin_login():
 
         operator_list = list(operators.find())
         farmer_list = list(bookings.find())   # Farmer details from bookings
+        status_counts = {
+            "pending": bookings.count_documents({"status": "Pending"}),
+            "accepted": bookings.count_documents({"status": "Accepted"}),
+            "completed": bookings.count_documents({"status": "Completed"}),
+            "rejected": bookings.count_documents({"status": "Rejected"})
+        }
+        status_total = sum(status_counts.values()) or 1
+        pending_end = status_counts["pending"] / status_total * 100
+        accepted_end = pending_end + status_counts["accepted"] / status_total * 100
+        completed_end = accepted_end + status_counts["completed"] / status_total * 100
+        status_chart_style = (
+            "conic-gradient(#f59e0b 0% {0:.2f}%, "
+            "#eab308 {0:.2f}% {1:.2f}%, "
+            "#16a34a {1:.2f}% {2:.2f}%, "
+            "#dc2626 {2:.2f}% 100%)"
+        ).format(pending_end, accepted_end, completed_end)
 
         return render_template(
             "admin_dashboard.html",
@@ -768,11 +784,12 @@ def admin_login():
             farmers=farmer_list,
             total_farmers=len(farmer_list),
             total_operators=len(operator_list),
-            total_bookings=bookings.count_documents({}),
-            pending=bookings.count_documents({"status": "Pending"}),
-            accepted=bookings.count_documents({"status": "Accepted"}),
-            completed=bookings.count_documents({"status": "Completed"}),
-            rejected=bookings.count_documents({"status": "Rejected"})
+            total_bookings=len(farmer_list),
+            pending=status_counts["pending"],
+            accepted=status_counts["accepted"],
+            completed=status_counts["completed"],
+            rejected=status_counts["rejected"],
+            status_chart_style=status_chart_style
         )
 
     return "<h2>Invalid Username or Password</h2>"
