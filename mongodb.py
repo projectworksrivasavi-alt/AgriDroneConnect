@@ -19,6 +19,3 @@ db = client["AgriDroneDB"]
 operators = db["operators"]
 farmers = db["farmers"]
 bookings = db["bookings"]
-
-print("MongoDB Connected Successfully")
-print(client.admin.command("ping"))

@@ -19,7 +19,7 @@ app.config.from_object(Config)
 if not app.config.get("SECRET_KEY"):
     raise RuntimeError("SECRET_KEY must be set in the environment")
 
-UPLOAD_FOLDER = "uploads"
+UPLOAD_FOLDER = "/tmp/uploads" if os.getenv("VERCEL") else "uploads"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
