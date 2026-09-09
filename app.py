@@ -811,7 +811,7 @@ def export_excel():
     output.seek(0)
     return send_file(
         output,
-        as_attachment=True,
+        as_attachment=request.args.get("view") != "1",
         download_name="agridrone_mongodb_data.xlsx",
         mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
