@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Feedback</title>
+</head>
+<body>
+
+<h2>Feedback Form</h2>
+
+<form action="/submit_feedback/{{ booking._id }}" method="POST">
+
+<label>Rating</label><br>
+
+<select name="rating">
+    <option value="5">⭐⭐⭐⭐⭐</option>
+    <option value="4">⭐⭐⭐⭐</option>
+    <option value="3">⭐⭐⭐</option>
+    <option value="2">⭐⭐</option>
+    <option value="1">⭐</option>
+</select>
+
+<br><br>
+
+<label>Comments</label><br>
+
+<textarea name="comments" rows="5" cols="40"></textarea>
+
+<br><br>
+
+<button type="submit">Submit Feedback</button>
+
+</form>
+
+</body>
+</html>

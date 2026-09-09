@@ -1,0 +1,14 @@
+.env
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.db
+uploads/*
+!uploads/.gitkeep
+.pytest_cache/
+.vscode/
+
+# Local deployment and build output
+.vercel/
+*.log

@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Drone Operator Registration</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, Helvetica, sans-serif;
+        }
+
+        body{
+
+            background:url("/static/images/drone_background.jpeg");
+            background-size:cover;
+            background-position:center;
+            background-repeat:no-repeat;
+            background-attachment:fixed;
+
+            display:flex;
+            justify-content:center;
+            align-items:center;
+
+            padding:40px;
+
+        }
+
+        .container{
+
+            width:900px;
+
+        background:rgba(255,255,255,0.65);
+
+            backdrop-filter:blur(18px);
+
+            -webkit-backdrop-filter:blur(18px);
+
+            border:1px solid rgba(255,255,255,0.4);
+
+            border-radius:20px;
+
+            padding:40px;
+
+            box-shadow:0 10px 35px rgba(0,0,0,.35);
+
+        }
+
+        h1{
+
+            text-align:center;
+            color:#1B5E20;
+
+            font-size:38px;
+
+            margin-bottom:30px;
+
+            text-shadow:1px 1px 3px white;
+
+        }
+
+        h2{
+
+            color:#2E7D32;
+
+            margin-top:25px;
+
+            margin-bottom:15px;
+
+            border-left:6px solid #4CAF50;
+
+            padding-left:12px;
+
+        }
+
+        label{
+
+            font-weight:bold;
+            color:#444;
+
+        }
+
+        input,
+            textarea{
+
+            width:100%;
+            padding:12px;
+
+        background:rgba(255,255,255,0.75);
+
+            border:1px solid rgba(255,255,255,.6);
+
+            border-radius:10px;
+
+            margin-top:6px;
+            margin-bottom:15px;
+
+            font-size:15px;
+
+        }
+
+        textarea{
+
+            resize:none;
+
+        }
+
+        input:focus,
+        textarea:focus{
+
+            border:2px solid #4CAF50;
+
+            outline:none;
+
+        }
+
+        input[type=file]{
+
+            background:white;
+
+        }
+
+        .password-box{
+
+            display:flex;
+
+            align-items:center;
+
+            gap:10px;
+
+            margin-bottom:15px;
+
+        }
+
+        .password-box input[type=checkbox]{
+
+            width:auto;
+
+            margin:0;
+
+        }
+
+        .password-box label{
+
+            font-weight:normal;
+
+        }
+
+        #mismatchWarning{
+
+            color:red;
+
+            display:none;
+
+            font-weight:bold;
+
+        }
+
+        button{
+
+            width:100%;
+
+            padding:15px;
+
+            background:linear-gradient(45deg,#43A047,#1B5E20);
+
+            color:white;
+
+            border:none;
+
+            border-radius:10px;
+
+            font-size:18px;
+
+            font-weight:bold;
+
+            cursor:pointer;
+
+            transition:.3s;
+
+        }
+
+        button:hover{
+
+            transform:translateY(-2px);
+
+            box-shadow:0 8px 20px rgba(0,0,0,.3);
+
+        }
+
+        hr{
+
+            margin:30px 0;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🚁 Drone Operator Registration</h1>
+
+<form action="/operator_register"
+method="POST"
+enctype="multipart/form-data"
+id="registerForm">
+
+<h2>Personal Details</h2>
+
+<label>Full Name</label>
+
+<input type="text"
+name="name"
+required>
+
+<label>Mobile Number</label>
+
+<input type="text"
+name="mobile"
+required>
+
+<label>Email ID</label>
+
+<input type="email"
+name="email"
+required>
+
+<label>Password</label>
+
+<input type="password"
+id="password"
+name="password"
+required>
+
+<div class="password-box">
+
+<input type="checkbox"
+id="togglePassword">
+
+<label for="togglePassword">
+Show Password
+</label>
+
+</div>
+
+<label>Confirm Password</label>
+
+<input type="password"
+id="confirm_password"
+required>
+
+<div class="password-box">
+
+<input type="checkbox"
+id="toggleConfirmPassword">
+
+<label for="toggleConfirmPassword">
+Show Password
+</label>
+
+</div>
+
+<span id="mismatchWarning">
+Passwords do not match
+</span>
+
+<br><br>
+
+<label>Aadhaar Number</label>
+
+<input type="text"
+name="aadhaar"
+maxlength="12"
+required>
+
+<label>Date of Birth</label>
+
+<input type="date"
+name="dob"
+required>
+
+<label>Address</label>
+
+<textarea
+name="address"
+rows="3"
+required></textarea>
+
+<label>District</label>
+
+<input type="text"
+name="district"
+required>
+
+<label>Mandal</label>
+
+<input type="text"
+name="mandal"
+required>
+
+<label>Village</label>
+
+<input type="text"
+name="village"
+required>
+
+<hr>
+
+<h2>Drone Details</h2>
+
+<label>Drone Company</label>
+
+<input type="text"
+name="drone_company"
+required>
+
+<label>Drone Model</label>
+
+<input type="text"
+name="drone_model"
+required>
+
+<label>Drone Registration Number</label>
+
+<input type="text"
+name="drone_no"
+required>
+
+<label>Drone Pilot License Number</label>
+
+<input type="text"
+name="license"
+required>
+
+<label>Drone Capacity (Litres)</label>
+
+<input type="number"
+name="capacity"
+required>
+
+<label>Years of Experience</label>
+
+<input type="number"
+name="experience"
+required>
+
+<hr>
+
+<h2>Upload Documents</h2>
+
+<label>Passport Size Photo</label>
+
+<input type="file"
+name="photo"
+accept="image/*"
+required>
+
+<label>Aadhaar Card</label>
+
+<input type="file"
+name="aadhaar_file"
+accept=".jpg,.jpeg,.png,.pdf"
+required>
+
+<label>Drone Pilot License</label>
+
+<input type="file"
+name="license_file"
+accept=".jpg,.jpeg,.png,.pdf"
+required>
+
+<label>Drone Registration Certificate</label>
+
+<input type="file"
+name="registration_file"
+accept=".jpg,.jpeg,.png,.pdf"
+required>
+
+<label>Drone Insurance Certificate (Optional)</label>
+
+<input type="file"
+name="insurance_file"
+accept=".jpg,.jpeg,.png,.pdf">
+
+<br><br>
+
+<button type="submit">
+
+Register Now
+
+</button>
+
+</form>
+
+</div>
+
+<script>
+
+function togglePassword(id, checkbox){
+
+    var field=document.getElementById(id);
+
+    if(checkbox.checked){
+
+        field.type="text";
+
+    }
+
+    else{
+
+        field.type="password";
+
+    }
+
+}
+
+document.getElementById("togglePassword").addEventListener("change",function(){
+
+    togglePassword("password",this);
+
+});
+
+document.getElementById("toggleConfirmPassword").addEventListener("change",function(){
+
+    togglePassword("confirm_password",this);
+
+});
+
+var password=document.getElementById("password");
+
+var confirmPassword=document.getElementById("confirm_password");
+
+var warning=document.getElementById("mismatchWarning");
+
+function validatePassword(){
+
+    if(confirmPassword.value!="" &&
+       password.value!=confirmPassword.value){
+
+        warning.style.display="inline";
+
+        return false;
+
+    }
+
+    warning.style.display="none";
+
+    return true;
+
+}
+
+password.addEventListener("input",validatePassword);
+
+confirmPassword.addEventListener("input",validatePassword);
+
+document.getElementById("registerForm").addEventListener("submit",function(e){
+
+    if(!validatePassword()){
+
+        e.preventDefault();
+
+        alert("Passwords do not match");
+
+    }
+
+});
+
+</script>
+
+</body>
+
+</html>

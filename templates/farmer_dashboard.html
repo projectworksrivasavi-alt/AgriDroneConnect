@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>{{ t.my_bookings }}</title>
+
+<style>
+
+body{
+    font-family:Arial;
+    background:#f4f6f8;
+    margin:20px;
+}
+
+h2{
+    color:#2e7d32;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+
+th{
+    background:#2e7d32;
+    color:white;
+    padding:10px;
+}
+
+td{
+    border:1px solid #ddd;
+    padding:10px;
+    text-align:center;
+}
+
+tr:nth-child(even){
+    background:#f2f2f2;
+}
+
+.pending{
+    color:red;
+    font-weight:bold;
+}
+
+.accepted{
+    color:orange;
+    font-weight:bold;
+}
+
+.completed{
+    color:green;
+    font-weight:bold;
+}
+
+.btn{
+    background:#2e7d32;
+    color:white;
+    padding:8px 15px;
+    text-decoration:none;
+    border-radius:5px;
+}
+
+.btn:hover{
+    background:#1b5e20;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>🌾 {{ t.welcome_farmer }}</h2>
+
+<a class="btn" href="/booking">
+    {{ t.book_service }}
+</a>
+
+<br><br>
+
+<h3>{{ t.my_bookings }}</h3>
+
+<table>
+
+<tr>
+
+    <th>{{ t.crop }}</th>
+    <th>{{ t.village }}</th>
+    <th>{{ t.area }}</th>
+    <th>{{ t.booking_date }}</th>
+    <th>{{ t.status }}</th>
+    <th>{{ t.before_photo }}</th>
+    <th>{{ t.after_photo }}</th>
+    <th>{{ t.payment }}</th>
+    <th>{{ t.feedback }}</th>
+
+</tr>
+
+{% for booking in bookings %}
+
+<tr>
+
+<td>{{ booking.crop }}</td>
+<td>{{ booking.village }}</td>
+<td>{{ booking.area }}</td>
+<td>{{ booking.booking_date }}</td>
+
+<td>
+
+{% if booking.status=="Pending" %}
+<span class="pending">{{ t.pending }}</span>
+
+{% elif booking.status=="Accepted" %}
+<span class="accepted">{{ t.accepted }}</span>
+
+{% elif booking.status=="Completed" %}
+<span class="completed">{{ t.completed }}</span>
+
+{% endif %}
+
+</td>
+
+<td>
+
+{% if booking.before_photo %}
+<a href="/uploads/{{ booking.before_photo }}" target="_blank">
+{{ t.view }}
+</a>
+{% else %}
+-
+{% endif %}
+
+</td>
+
+<td>
+
+{% if booking.after_photo %}
+<a href="/uploads/{{ booking.after_photo }}" target="_blank">
+{{ t.view }}
+</a>
+{% else %}
+-
+{% endif %}
+
+</td>
+
+<td>
+
+{% if booking.status=="Completed" %}
+
+{% if booking.payment_status=="Paid" %}
+
+<span style="color:green;font-weight:bold;">
+{{ t.paid }}
+</span>
+
+{% else %}
+
+<a class="btn" href="/payment/{{ booking._id }}">
+{{ t.pay_now }}
+</a>
+
+{% endif %}
+
+{% else %}
+-
+{% endif %}
+
+</td>
+
+<td>
+
+{% if booking.payment_status=="Paid" %}
+
+{% if booking.rating %}
+
+<span style="color:green;font-weight:bold;">
+{{ t.feedback_submitted }}
+</span>
+
+{% else %}
+
+<a class="btn" href="/feedback/{{ booking._id }}">
+{{ t.give_feedback }}
+</a>
+
+{% endif %}
+
+{% else %}
+-
+{% endif %}
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</body>
+</html>

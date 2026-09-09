@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>AgriDrone Connect</title>
+
+<style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+
+    background-image: url("{{ url_for('static', filename='images/background.jpeg') }}");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Dark background overlay */
+
+.overlay {
+    min-height: 100vh;
+
+    background: rgba(0, 0, 0, 0.45);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Main container */
+
+.container {
+    width: 500px;
+
+    background: white;
+
+    padding: 40px;
+
+    border-radius: 10px;
+
+    text-align: center;
+
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Heading */
+
+.container h1 {
+    font-size: 40px;
+    margin-bottom: 15px;
+    color: #2E7D32;
+}
+
+.container h3 {
+    font-size: 18px;
+    font-weight: normal;
+    margin-bottom: 30px;
+    color: #555;
+}
+
+/* Buttons */
+
+.btn {
+    display: block;
+
+    width: 100%;
+
+    padding: 15px;
+
+    margin: 15px 0;
+
+    border-radius: 6px;
+
+    text-decoration: none;
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    color: white;
+}
+
+/* Farmer button */
+
+.farmer {
+    background: #28a745;
+}
+
+.farmer:hover {
+    background: #218838;
+}
+
+/* Operator button */
+
+.operator {
+    background: #007bff;
+}
+
+.operator:hover {
+    background: #0069d9;
+}
+
+/* Admin button */
+
+.admin {
+    background: #dc3545;
+}
+
+.admin:hover {
+    background: #c82333;
+}
+
+/* Footer */
+
+.footer {
+    margin-top: 25px;
+
+    font-size: 14px;
+
+    color: #666;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="overlay">
+
+    <div class="container">
+
+        <h1>🌾 AgriDrone Connect</h1>
+
+        <h3>
+            Smart Agriculture Drone Service Platform
+        </h3>
+
+        <a href="/language" class="btn farmer">
+            🌾 Farmer Login
+        </a>
+
+        <a href="/operator" class="btn operator">
+            🚁 Drone Operator Login
+        </a>
+
+        <a href="/admin" class="btn admin">
+            🛡 Admin Login
+        </a>
+
+        <div class="footer">
+
+            Developed for Smart Agriculture using Drone Technology
+
+            <br><br>
+
+            © 2026 AgriDrone Connect
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
