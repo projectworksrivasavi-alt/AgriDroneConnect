@@ -114,7 +114,7 @@ button:hover{
 <input type="text" name="farmer_name" placeholder="{{ t.farmer_name_placeholder }}" required>
 
 <label>{{ t.mobile }}</label>
-<input type="text" name="mobile" placeholder="{{ t.mobile_placeholder }}" required>
+<input type="tel" name="mobile" placeholder="+91XXXXXXXXXX" pattern="\+91[6-9][0-9]{9}" minlength="13" maxlength="13" title="Enter +91 followed by 10 digits" required>
 
 <label>{{ t.village }}</label>
 <input type="text" name="village" placeholder="{{ t.village_placeholder }}" required>

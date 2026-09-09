@@ -223,8 +223,13 @@ required>
 
 <label>Mobile Number</label>
 
-<input type="text"
+<input type="tel"
 name="mobile"
+placeholder="+91XXXXXXXXXX"
+pattern="\+91[6-9][0-9]{9}"
+minlength="13"
+maxlength="13"
+title="Enter +91 followed by 10 digits"
 required>
 
 <label>Email ID</label>

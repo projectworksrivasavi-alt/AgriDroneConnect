@@ -217,9 +217,13 @@ button:hover{
 <label>Mobile Number</label>
 
 <input
-type="text"
+ type="tel"
 name="mobile"
-placeholder="Enter Mobile Number"
+placeholder="+91XXXXXXXXXX"
+pattern="\+91[6-9][0-9]{9}"
+minlength="13"
+maxlength="13"
+title="Enter +91 followed by 10 digits"
 required>
 
 <label>Password</label>

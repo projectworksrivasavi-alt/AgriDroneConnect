@@ -26,6 +26,15 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # ---------------- HELPERS ----------------
 
+def normalize_mobile(value):
+    """Return an Indian mobile number in +91XXXXXXXXXX format."""
+    mobile = (value or "").strip().replace(" ", "").replace("-", "")
+    if not (mobile.startswith("+91") and mobile[3:].isdigit() and len(mobile[3:]) == 10):
+        return None
+    if mobile[3] not in "6789":
+        return None
+    return mobile
+
 def alert_redirect(message, url):
     """Return a small HTML page that alerts a message then redirects.
     Escapes message/url so user-controlled content can't break out of the
@@ -250,7 +259,9 @@ def set_language():
 @app.route('/send_otp', methods=['POST'])
 def send_otp():
 
-    mobile = request.form['mobile']
+    mobile = normalize_mobile(request.form.get('mobile'))
+    if not mobile:
+        return "<h2>Enter a valid mobile number with +91 and 10 digits.</h2>", 400
     safe_mobile = escape(mobile)
 
     # Generate random 6-digit OTP
@@ -289,8 +300,11 @@ def send_otp():
 @app.route('/verify_otp', methods=['POST'])
 def verify_otp():
 
-    mobile = request.form['mobile']
+    mobile = normalize_mobile(request.form.get('mobile'))
     otp = request.form['otp']
+
+    if not mobile:
+        return "<h2>Enter a valid mobile number with +91 and 10 digits.</h2>", 400
 
     # Verify generated OTP
     if otp != session.get("otp"):
@@ -350,6 +364,10 @@ def booking():
 @app.route('/book_service', methods=['POST'])
 def book_service():
 
+    mobile = normalize_mobile(request.form.get('mobile'))
+    if not mobile:
+        return alert_redirect("Enter a valid mobile number with +91 and 10 digits", "/booking")
+
     try:
         latitude = float(request.form.get('latitude'))
         longitude = float(request.form.get('longitude'))
@@ -358,7 +376,7 @@ def book_service():
 
     booking = {
         "farmer_name": request.form.get('farmer_name'),
-        "mobile": request.form.get('mobile'),
+        "mobile": mobile,
         "village": request.form.get('village'),
         "crop": request.form.get('crop'),
         "area": request.form.get('area'),
@@ -513,7 +531,9 @@ def operator_register():
 
     # Personal Details
     name = request.form['name']
-    mobile = request.form['mobile']
+    mobile = normalize_mobile(request.form.get('mobile'))
+    if not mobile:
+        return "<h2>Enter a valid mobile number with +91 and 10 digits.</h2>", 400
     email = request.form['email']
     password = request.form['password']
     confirm_password = request.form['confirm_password']
@@ -557,8 +577,11 @@ def operator_register():
 @app.route('/operator_login', methods=['POST'])
 def operator_login():
 
-    mobile = request.form['mobile']
+    mobile = normalize_mobile(request.form.get('mobile'))
     password = request.form['password']
+
+    if not mobile:
+        return "<h2>Enter a valid mobile number with +91 and 10 digits.</h2>", 400
 
     operator = operators.find_one({"mobile": mobile})
 

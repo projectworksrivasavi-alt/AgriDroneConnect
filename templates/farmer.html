@@ -118,10 +118,14 @@ input{
         <label>{{ t.mobile }}</label>
 
         <input
-            type="text"
+            type="tel"
             name="mobile"
             id="mobileInput"
             placeholder="{{ t.mobile_placeholder }}"
+            pattern="\+91[6-9][0-9]{9}"
+            minlength="13"
+            maxlength="13"
+            title="Enter +91 followed by 10 digits"
             required>
 
         <button
