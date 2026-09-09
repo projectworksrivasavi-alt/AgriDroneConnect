@@ -121,11 +121,13 @@ input{
             type="tel"
             name="mobile"
             id="mobileInput"
-            placeholder="{{ t.mobile_placeholder }}"
+            value="+91"
+            placeholder="XXXXXXXXXX"
             pattern="\+91[6-9][0-9]{9}"
             minlength="13"
             maxlength="13"
             title="Enter +91 followed by 10 digits"
+            oninput="formatMobile(this)"
             required>
 
         <button
@@ -144,8 +146,8 @@ input{
 function sendOTP() {
     const mobile = document.querySelector('input[name="mobile"]').value;
 
-    if (!mobile) {
-        alert("{{ t.mobile_placeholder }}");
+    if (!/^\+91[6-9][0-9]{9}$/.test(mobile)) {
+        alert("Enter 10 digits after +91");
         return;
     }
 
@@ -166,6 +168,11 @@ function sendOTP() {
         console.error(error);
         alert("Failed to send OTP.");
     });
+}
+
+function formatMobile(input) {
+    const digits = input.value.replace(/\D/g, '').replace(/^91/, '').slice(0, 10);
+    input.value = '+91' + digits;
 }
 
 </script>

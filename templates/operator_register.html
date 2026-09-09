@@ -225,11 +225,13 @@ required>
 
 <input type="tel"
 name="mobile"
-placeholder="+91XXXXXXXXXX"
+value="+91"
+placeholder="XXXXXXXXXX"
 pattern="\+91[6-9][0-9]{9}"
 minlength="13"
 maxlength="13"
 title="Enter +91 followed by 10 digits"
+oninput="this.value = '+91' + this.value.replace(/\D/g, '').replace(/^91/, '').slice(0, 10)"
 required>
 
 <label>Email ID</label>

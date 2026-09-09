@@ -29,6 +29,8 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 def normalize_mobile(value):
     """Return an Indian mobile number in +91XXXXXXXXXX format."""
     mobile = (value or "").strip().replace(" ", "").replace("-", "")
+    if mobile.isdigit() and len(mobile) == 10:
+        mobile = "+91" + mobile
     if not (mobile.startswith("+91") and mobile[3:].isdigit() and len(mobile[3:]) == 10):
         return None
     if mobile[3] not in "6789":
@@ -312,7 +314,11 @@ def verify_otp():
 
     session["farmer_mobile"] = mobile
 
-    booking_list = list(bookings.find({"mobile": mobile}))
+    try:
+        booking_list = list(bookings.find({"mobile": mobile}))
+    except Exception as error:
+        app.logger.error("Unable to load farmer bookings: %s", error)
+        return "<h2>Database is not configured. Add a valid MONGO_URI in Vercel and redeploy.</h2>", 503
 
     # Selected language
     lang = session.get("language", "English")
