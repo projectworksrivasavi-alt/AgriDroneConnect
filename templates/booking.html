@@ -120,7 +120,12 @@ button:hover{
 <input type="text" name="village" placeholder="{{ t.village_placeholder }}" required>
 
 <label>{{ t.crop }}</label>
-<input type="text" name="crop" placeholder="{{ t.crop_placeholder }}" required>
+<select name="crop" required>
+    <option value="" selected disabled>{{ t.crop_placeholder }}</option>
+    {% for value, label in t.crop_options %}
+    <option value="{{ value }}">{{ label }}</option>
+    {% endfor %}
+</select>
 
 <label>{{ t.area }}</label>
 <input type="number" name="area" placeholder="{{ t.area_placeholder }}" required>
